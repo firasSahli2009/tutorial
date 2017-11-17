@@ -19,32 +19,43 @@ namespace ProductStart.Controllers
     public class ProductsController : ApiController
     {
         private readonly IProductProvider _provider;
-        private ProductModelFactory modelFactory;
+        private ProductModelFactory _modelFactory;
 
         public ProductsController(IProductProvider provider)
         {
             _provider = provider;
             
         }
+
         [Route("", Name = "AllProducts")]
-        public Object Get()
+        [HttpGet]
+        public IHttpActionResult Get()
         {
-            //return _provider.GetAll();
-
-            modelFactory = new ProductModelFactory(this.Request);
-
-            List<ProductModel> productModels= new List<ProductModel>();
-            var productLikst= _provider.GetAll();
-            foreach (var product in productLikst)
+            try
             {
-                productModels.Add( modelFactory.CreateProductModel(product) );
-            }
+                //return _provider.GetAll();
 
-            return productModels;
+                _modelFactory = new ProductModelFactory(this.Request);
+
+                List<ProductModel> productModels = new List<ProductModel>();
+                var productLinks = _provider.GetAll();
+                foreach (var product in productLinks)
+                {
+                    productModels.Add(_modelFactory.CreateProductModel(product));
+                }
+
+                return Ok(productModels);
+            }
+            catch (Exception e)
+            {
+                return InternalServerError();
+            }
+            
         }
 
         // GET: Product
         [Route("{productid}", Name = "Product")]
+        [HttpGet]
         public IHttpActionResult Get(int productid)
         {
             var product = _provider.Get(productid);
@@ -55,6 +66,7 @@ namespace ProductStart.Controllers
             return Ok(product);
         }
        
+        [HttpPost]
         [Route("", Name = "AddProduct")]
         public HttpResponseMessage PostProduct(Product product)
         {
@@ -67,6 +79,8 @@ namespace ProductStart.Controllers
             return response;
         }
 
+        [HttpPut]
+        [HttpPatch]
         [Route("{id}", Name = "UpdateProduct")]
         public IHttpActionResult PutProduct(int id, Product product)
         {
@@ -81,6 +95,7 @@ namespace ProductStart.Controllers
 
         }
 
+        [HttpDelete]
         [Route("{id}", Name = "DeleteProducts")]
         public IHttpActionResult DeleteProduct(int id)
         {

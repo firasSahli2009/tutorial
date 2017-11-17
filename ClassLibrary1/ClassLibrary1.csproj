@@ -170,7 +170,9 @@
     <Compile Include="IEntity.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="ModelFactory\ModelFactory.cs" />
+    <Compile Include="ModelFactory\ClientModel.cs" />
     <Compile Include="ModelFactory\ProductModel.cs" />
+    <Compile Include="ModelFactory\ClientModelFactory.cs" />
     <Compile Include="ModelFactory\ProductModelFactory.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Product.cs" />

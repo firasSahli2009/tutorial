@@ -17,7 +17,7 @@ namespace ProductStart.Providers
             _clientRepository = clientRepository;
         }
 
-        public IEnumerable<Entity> GetAll()
+        public IEnumerable<Client> GetAll()
         {
             return _clientRepository.GetAll();
         }

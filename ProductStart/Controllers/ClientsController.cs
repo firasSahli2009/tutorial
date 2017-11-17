@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
 using ClassLibrary1;
+using ClassLibrary1.ModelFactory;
 using ProductStart.Providers;
 
 namespace ProductStart.Controllers
@@ -14,17 +15,36 @@ namespace ProductStart.Controllers
     public class ClientsController : ApiController
     {
         private readonly IClientProvider _provider;
+        private ClientModelFactory _modelFactory;
 
         public ClientsController(IClientProvider provider)
         {
             _provider = provider;
         }
 
-        [Route("", Name = "AllClinets")]
+        [Route("", Name = "Clinets")]
         [HttpGet]
-        public IEnumerable<Entity> Get()
+        public IHttpActionResult Get()
         {
-            return _provider.GetAll();
+            try
+            {
+                
+                _modelFactory = new ClientModelFactory(this.Request);
+                List<ClientModel> clientModels = new List<ClientModel>();
+                var clientLinks = _provider.GetAll();
+                foreach (var client in clientLinks)
+                {
+                    clientModels.Add(_modelFactory.CreateClientModel(client));
+                }
+
+                return Ok(clientModels);
+            }
+            catch (Exception ex)
+            {
+
+                return InternalServerError();
+            }
+
         }
 
         // GET: Clients

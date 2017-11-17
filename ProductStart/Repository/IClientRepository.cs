@@ -7,7 +7,7 @@ namespace ProductStart.Repository
     public interface IClientRepository
     {
 
-        IEnumerable<Entity> GetAll();
+        IEnumerable<Client> GetAll();
         Client Get(int id);
 
         Client Get(string name);

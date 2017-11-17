@@ -15,7 +15,7 @@ namespace ProductStart.Repository
             
         }
 
-        public IEnumerable<Entity> GetAll()
+        public IEnumerable<Client> GetAll()
         {
             return Clients.ListAll();
         }

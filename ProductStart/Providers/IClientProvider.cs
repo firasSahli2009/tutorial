@@ -5,7 +5,7 @@ namespace ProductStart.Providers
 {
     public interface IClientProvider
     {
-        IEnumerable<Entity> GetAll();
+        IEnumerable<Client> GetAll();
         Client Get(int id);
 
         Client Get(string nmae);
