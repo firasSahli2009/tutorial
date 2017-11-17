@@ -7,6 +7,8 @@ namespace ProductStart.Providers
     {
         IEnumerable<Entity> GetAll();
         Client Get(int id);
+
+        Client Get(string nmae);
         Client Add(Client client);
         Client Update(int id, Client client);
         void Delete(int id);

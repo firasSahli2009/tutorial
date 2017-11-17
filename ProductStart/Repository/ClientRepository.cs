@@ -25,6 +25,11 @@ namespace ProductStart.Repository
             return Clients.FindById(id);
         }
 
+        public Client Get(string name)
+        {
+            return Clients.FindByName(name);
+        }
+
         public Client Add(Client client)
         {
             if (client == null)

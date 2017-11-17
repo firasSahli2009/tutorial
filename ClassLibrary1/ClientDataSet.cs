@@ -45,7 +45,14 @@ namespace ClassLibrary1
             return result as Client;
         }
 
-       
-
+        internal Client FindByName(string name)
+        {
+            var result = Elements.FirstOrDefault(p =>
+            {
+                var client = p as Client;
+                return client != null && client.Name == name;
+            });
+            return result as Client;
+        }
     }
 }

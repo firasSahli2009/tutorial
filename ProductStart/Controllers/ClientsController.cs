@@ -19,14 +19,16 @@ namespace ProductStart.Controllers
         {
             _provider = provider;
         }
+
         [Route("", Name = "AllClinets")]
+        [HttpGet]
         public IEnumerable<Entity> Get()
         {
             return _provider.GetAll();
         }
 
         // GET: Clients
-        [Route("{clientid}", Name = "Client")]
+        [Route("~/api/client/{clientid:int}", Name = "Client")]
         public IHttpActionResult Get(int clientid)
         {
             var client = _provider.Get(clientid);
@@ -37,7 +39,21 @@ namespace ProductStart.Controllers
             return Ok(client);
         }
 
+        // GET: Clients
+        [Route("~/api/client/{clientname:alpha}", Name = "ClientByName")]
+        [HttpGet]
+        public IHttpActionResult Get(string clientname)
+        {
+            var client = _provider.Get(clientname);
+            if (client == null)
+            {
+                return NotFound();
+            }
+            return Ok(client);
+        }
+
         [Route("", Name = "AddClinet")]
+        [HttpPost]
         public HttpResponseMessage PostClinet(Client client)
         {
             var newITem = _provider.Add(client);
@@ -49,7 +65,12 @@ namespace ProductStart.Controllers
             return response;
         }
 
+        /*
+         * @ToDo: Add a separate HttpPatch
+         */
         [Route("{id}", Name = "UpdateClient")]
+        [HttpPut]
+        [HttpPatch]
         public IHttpActionResult PutClient(int id, Client client)
         {
             client.Id = id;
@@ -63,7 +84,9 @@ namespace ProductStart.Controllers
 
         }
 
+        
         [Route("{id}", Name = "DeleteClients")]
+        [HttpDelete]
         public IHttpActionResult DeleteProduct(int id)
         {
             var response = Get(id);

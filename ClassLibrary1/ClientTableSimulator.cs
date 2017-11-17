@@ -35,20 +35,20 @@ namespace ClassLibrary1
             {
                 Category = ClientCategory.Company,
                 Address = "Cleint 1 address",
-                Name = "client 1"
+                Name = "client"
             });
             Add(new Client
             {
                 Category = ClientCategory.Government,
                 Address = "Toy 1 description",
-                Name = "Toys 1"
+                Name = "Toys1"
             });
 
             Add(new Client
             {
                 Category = ClientCategory.Individual,
                 Address = " address client 3 ",
-                Name = "client 3"
+                Name = "client3"
             });
 
         }
@@ -73,6 +73,11 @@ namespace ClassLibrary1
         public Client FindById(int id)
         {
             return clientTable.FindById(id);
+        }
+
+        public Client FindByName(string name)
+        {
+            return clientTable.FindByName(name);
         }
 
         public IEnumerable<Entity> ListAll()

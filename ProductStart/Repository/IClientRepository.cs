@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ClassLibrary1;
 
 namespace ProductStart.Repository
@@ -8,6 +9,8 @@ namespace ProductStart.Repository
 
         IEnumerable<Entity> GetAll();
         Client Get(int id);
+
+        Client Get(string name);
         Client Add(Client client);
         Client Update(int id, Client client);
         void Delete(int id);

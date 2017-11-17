@@ -27,6 +27,11 @@ namespace ProductStart.Providers
             return _clientRepository.Get(id);
         }
 
+        public Client Get(string name)
+        {
+            return _clientRepository.Get(name);
+        }
+
         public Client Add(Client client)
         {
             return _clientRepository.Add(client);
