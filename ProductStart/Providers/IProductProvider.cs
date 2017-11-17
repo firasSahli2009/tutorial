@@ -6,7 +6,7 @@ namespace ProductStart.Providers
 {
     public interface IProductProvider
     {
-        IEnumerable<Entity> GetAll();
+        IEnumerable<Product> GetAll();
         Product Get(int id);
         Product Add(Product product);
         Product Update(int id, Product product);

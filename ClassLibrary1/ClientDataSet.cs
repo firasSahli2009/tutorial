@@ -8,11 +8,11 @@ namespace ClassLibrary1
 {
     public class ClietntDataSet: IDbSet<Client>
     {
-        public List<Entity> Elements { get; }
+        public List<Client> Elements { get; }
 
         public ClietntDataSet()
         {
-            Elements = new List<Entity>();
+            Elements = new List<Client>();
 
         }
 
@@ -52,7 +52,7 @@ namespace ClassLibrary1
                 var client = p as Client;
                 return client != null && client.Name == name;
             });
-            return result as Client;
+            return result;
         }
     }
 }

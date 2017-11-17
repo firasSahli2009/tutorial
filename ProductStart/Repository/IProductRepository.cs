@@ -6,7 +6,7 @@ namespace ProductStart.Repository
 {
     public interface IProductRepository
     {
-        IEnumerable<Entity> GetAll();
+        IEnumerable<Product> GetAll();
         Product Get(int id);
         Product Add(Product product);
         Product Update(int id, Product product);

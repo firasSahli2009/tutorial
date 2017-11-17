@@ -8,12 +8,19 @@ namespace ClassLibrary1
 {
     public class ProductDataSet: IDbSet<Product>
     {
-        public List<Entity> Elements { get; }
+        public List<Product> Elements { get; }
+
+        
 
         public ProductDataSet()
         {
-            Elements = new List<Entity>();
+            Elements = new List<Product>();
+        }
 
+        public Product FindById(int id)
+        {
+            var result = Elements.FirstOrDefault(p => p.Id == id);
+            return result;
         }
 
         public Product Add(Product entity)
@@ -39,11 +46,7 @@ namespace ClassLibrary1
             return entity;
         }
 
-        public Product FindById(int Id)
-        {
-            var result = Elements.FirstOrDefault(p => p.Id == Id);
-            return result as Product;
-        }
+        
 
         
     }

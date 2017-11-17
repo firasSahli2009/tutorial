@@ -169,6 +169,10 @@
     <Compile Include="IDbSet.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IProduct.cs" />
+    <Compile Include="ModelFactory\ModelFactory.cs" />
+    <Compile Include="ModelFactory\ProductModel.cs" />
+    <Compile Include="ModelFactory\ProductModelFactory.cs" />
+    <Compile Include="Order.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductCategory.cs" />
     <Compile Include="ClientDataSet.cs" />

@@ -10,6 +10,8 @@ using ClassLibrary1;
 using ProductStart.Models;
 using ProductStart.Providers;
 using ProductStart.Repository;
+using ClassLibrary1.ModelFactory;
+
 
 namespace ProductStart.Controllers
 {
@@ -17,15 +19,28 @@ namespace ProductStart.Controllers
     public class ProductsController : ApiController
     {
         private readonly IProductProvider _provider;
+        private ProductModelFactory modelFactory;
 
         public ProductsController(IProductProvider provider)
         {
             _provider = provider;
+            
         }
         [Route("", Name = "AllProducts")]
-        public IEnumerable<Entity> Get()
+        public Object Get()
         {
-            return _provider.GetAll();
+            //return _provider.GetAll();
+
+            modelFactory = new ProductModelFactory(this.Request);
+
+            List<ProductModel> productModels= new List<ProductModel>();
+            var productLikst= _provider.GetAll();
+            foreach (var product in productLikst)
+            {
+                productModels.Add( modelFactory.CreateProductModel(product) );
+            }
+
+            return productModels;
         }
 
         // GET: Product

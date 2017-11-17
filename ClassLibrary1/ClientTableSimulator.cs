@@ -7,7 +7,7 @@ namespace ClassLibrary1
     public class ClientTableSimulator
     {
         private static ClientTableSimulator _instance;
-        private static ClietntDataSet clientTable;
+        private static ClietntDataSet _clientTable;
         private int _nextId = 1;
 
         private static readonly object Padlock = new object();
@@ -18,18 +18,14 @@ namespace ClassLibrary1
             {
                 lock (Padlock)
                 {
-                    if (_instance == null)
-                    {
-                        _instance = new ClientTableSimulator();
-                    }
-                    return _instance;
+                    return _instance ?? (_instance = new ClientTableSimulator());
                 }
             }
         }
 
         private ClientTableSimulator()
         {
-            clientTable = new ClietntDataSet();
+            _clientTable = new ClietntDataSet();
 
             Add(new Client
             {
@@ -56,33 +52,33 @@ namespace ClassLibrary1
         public Client Add(Client client)
         {
             client.Id=_nextId++;
-            return clientTable.Add(client);
+            return _clientTable.Add(client);
             
         }
 
         public Client Update(Client client)
         {
-            return clientTable.Update(client);
+            return _clientTable.Update(client);
         }
 
         public void Delelete(Client client)
         {
-            clientTable.Delete( client.Id);
+            _clientTable.Delete( client.Id);
         }
 
         public Client FindById(int id)
         {
-            return clientTable.FindById(id);
+            return _clientTable.FindById(id);
         }
 
         public Client FindByName(string name)
         {
-            return clientTable.FindByName(name);
+            return _clientTable.FindByName(name);
         }
 
-        public IEnumerable<Entity> ListAll()
+        public IEnumerable<Client> ListAll()
         {
-            return clientTable.Elements;
+            return _clientTable.Elements;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace ProductStart.Repository
         }
 
 
-        public IEnumerable<Entity> GetAll()
+        public IEnumerable<Product> GetAll()
         {
             return Products.ListAll();
         }

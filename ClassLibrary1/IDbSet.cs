@@ -2,9 +2,9 @@
 
 namespace ClassLibrary1
 {
-    public interface IDbSet<T> where T: Entity
+    public interface IDbSet<T> where T: IEntity
     {
-        List<Entity> Elements { get; }
+        List<T> Elements { get; }
         T Add(T entity);
         void Delete(int id);
         T Update(T entity);

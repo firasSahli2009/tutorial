@@ -7,7 +7,7 @@ namespace ClassLibrary1
     public class ProductTableSimulator
     {
         private static ProductTableSimulator _instance;
-        private static ProductDataSet ProductTable;
+        private static ProductDataSet _productTable;
         private int _nextId = 1;
 
         private static readonly object Padlock = new object();
@@ -18,18 +18,14 @@ namespace ClassLibrary1
             {
                 lock (Padlock)
                 {
-                    if (_instance == null)
-                    {
-                        _instance = new ProductTableSimulator();
-                    }
-                    return _instance;
+                    return _instance ?? (_instance = new ProductTableSimulator());
                 }
             }
         }
 
         private ProductTableSimulator()
         {
-            ProductTable = new ProductDataSet();
+            _productTable = new ProductDataSet();
 
             Add(new Product
             {
@@ -48,7 +44,7 @@ namespace ClassLibrary1
             {
                 Category = ProductCategory.Hardware,
                 Description = " Hardware 1 description",
-                Name = "Hardware 1"
+                Name = "Hardware Hard"
             });
 
         }
@@ -56,28 +52,28 @@ namespace ClassLibrary1
         public Product Add(Product product)
         {
             product.Id=_nextId++;
-            return ProductTable.Add(product);
+            return _productTable.Add(product);
             
         }
 
         public Product Update(Product product)
         {
-            return ProductTable.Update(product);
+            return _productTable.Update(product);
         }
 
         public void Delelete(Product product)
         {
-            ProductTable.Delete( product.Id);
+            _productTable.Delete( product.Id);
         }
 
         public Product FindById(int id)
         {
-            return ProductTable.FindById(id);
+            return _productTable.FindById(id);
         }
 
-        public List<Entity> ListAll()
+        public List<Product> ListAll()
         {
-            return ProductTable.Elements;
+            return _productTable.Elements;
         }
     }
 }

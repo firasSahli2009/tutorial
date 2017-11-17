@@ -2,6 +2,7 @@
 {
     public enum ProductCategory
     {
+        NoCategory=0,
         Groceries,
         Toys,
         Hardware

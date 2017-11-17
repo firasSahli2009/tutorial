@@ -11,5 +11,16 @@ namespace ClassLibrary1
         public string Name { get; set; }
         public string Description { get; set; }
         public ProductCategory Category { get; set; }
+
+        public Product(): this("", "")
+        {
+        }
+
+        public Product(string name = "name", string desscription = "description")
+        {
+            Name = Name;
+            Description = desscription;
+            Category = ProductCategory.NoCategory;
+        }
     }
 }
