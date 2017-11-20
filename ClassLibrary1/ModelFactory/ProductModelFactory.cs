@@ -18,10 +18,15 @@ namespace ClassLibrary1.ModelFactory
             return new ProductModel
             {
                 Name = product.Name,
-                Description = product.Description,
-                Category = product.Category,
+                CategoryName = Enum.GetName( typeof(ProductCategory), product.Category),
                 SelfUrl = UrlHelper.Link("Product", new {productid = product.Id})
             };
+        }
+
+        public string CreateProductStringModel(Product product)
+        {
+            return UrlHelper.Link("Product", new {productid = product.Id});
+
         }
     }
 }

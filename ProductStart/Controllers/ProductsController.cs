@@ -34,7 +34,6 @@ namespace ProductStart.Controllers
             try
             {
                 //return _provider.GetAll();
-
                 _modelFactory = new ProductModelFactory(this.Request);
 
                 List<ProductModel> productModels = new List<ProductModel>();
@@ -54,7 +53,7 @@ namespace ProductStart.Controllers
         }
 
         // GET: Product
-        [Route("{productid}", Name = "Product")]
+        [Route("~/api/product/{productid:int}", Name = "Product")]
         [HttpGet]
         public IHttpActionResult Get(int productid)
         {

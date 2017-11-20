@@ -10,6 +10,8 @@ namespace ClassLibrary1
         private static ClietntDataSet _clientTable;
         private int _nextId = 1;
 
+        private ProductTableSimulator productTableSimulator= ProductTableSimulator.Instance;
+
         private static readonly object Padlock = new object();
 
         public static ClientTableSimulator Instance
@@ -31,13 +33,24 @@ namespace ClassLibrary1
             {
                 Category = ClientCategory.Company,
                 Address = "Cleint 1 address",
-                Name = "client"
+                Name = "client",
+                Products = new List<Product>
+                {
+                    productTableSimulator.FindById(1),
+                    productTableSimulator.FindById(2)
+                }
             });
             Add(new Client
             {
                 Category = ClientCategory.Government,
                 Address = "Toy 1 description",
-                Name = "Toys1"
+                Name = "other client",
+                Products = new List<Product>
+                {
+                    productTableSimulator.FindById(1),
+                    productTableSimulator.FindById(2),
+                    productTableSimulator.FindById(3),
+                }
             });
 
             Add(new Client

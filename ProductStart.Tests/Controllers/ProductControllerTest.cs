@@ -10,12 +10,14 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Hosting;
 using System.Web.Http.Routing;
 using AutoMoq;
 using NUnit.Framework;
 
 using Moq;
 using ClassLibrary1;
+using Newtonsoft.Json;
 using ProductStart.Controllers;
 using ProductStart.Factories;
 using ProductStart.Providers;
@@ -43,7 +45,7 @@ namespace ProductStart.Tests.Controllers
         {
 
             _provider = new Mock<IProductProvider>();
-            _repository= new Mock<IProductRepository>();
+            _repository = new Mock<IProductRepository>();
 
             _controller = new ProductsController(_provider.Object);
 
@@ -61,10 +63,10 @@ namespace ProductStart.Tests.Controllers
                 )
                 .Returns(productList);
             //Act
-            var results = _controller.Get();
+            var response = _controller.Get();
 
             //Assert
-            Assert.IsNotNull(results);
+            Assert.IsNotNull(response);
             //Assert.AreEqual(3, results.Count());
 
         }
@@ -98,6 +100,8 @@ namespace ProductStart.Tests.Controllers
             Assert.AreEqual(result.Category, category);
             Assert.AreEqual(result.Description, description);
 
+            
+
         }
 
         [TestMethod]
@@ -108,7 +112,7 @@ namespace ProductStart.Tests.Controllers
             _provider.Setup(
                     p => p.Get(otherId)
                 )
-                .Returns((Product) null);
+                .Returns((Product)null);
 
             // Act
             var actionResult = _controller.Get(otherId);
@@ -133,35 +137,86 @@ namespace ProductStart.Tests.Controllers
                 )
                 .Returns(product);
 
+            _controller.Request = new HttpRequestMessage();
+            _controller.Configuration = new HttpConfiguration();
 
-            _controller.Request = new HttpRequestMessage
+
+            var locationUrl = $"http://localhost:62350/api/product/{id}";
+
+            var mockUrlHelper = new Mock<UrlHelper>();
+            mockUrlHelper.Setup(x => x.Link(It.IsAny<string>(), It.IsAny<object>())).Returns(locationUrl);
+
+           
+            _controller.Url = mockUrlHelper.Object;
+
+            _controller.Request = new HttpRequestMessage()
             {
-                RequestUri = new Uri("http://localhost/api/products")
+                Properties = { { HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration() } }
             };
-
-
-            //_controller.Request = new HttpRequestMessage();
-            _controller.Configuration = new HttpConfiguration();
-
-            _controller.Configuration = new HttpConfiguration();
-            _controller.Configuration.Routes.MapHttpRoute(
-                name: "Product",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional });
-
-            _controller.RequestContext.RouteData = new HttpRouteData(
-                route: new HttpRoute(),
-                values: new HttpRouteValueDictionary { { "controller", "Product" } });
-
 
             //Act
             var response = _controller.PostProduct(product);
-            //Assert
+            
 
-            Product result;
-            Assert.IsTrue(response.TryGetContentValue<Product>(out result));
-            Assert.AreEqual(product.Id, result.Id);
-            Assert.IsNotNull(result);
+            //Assert
+            Assert.IsNotNull(response);
+            _provider.Verify(p => p.Add(It.IsAny<Product>()), Times.Once);
+            var content = response.Content;
+            
+            var newProduct = JsonConvert.DeserializeObject<Product>(content.ReadAsStringAsync().Result);
+
+            Assert.AreEqual(newProduct.Name, product.Name);
+            Assert.AreEqual(newProduct.Id, product.Id);
+            Assert.AreEqual(newProduct.Description, product.Description);
+            Assert.AreEqual(newProduct.Category, product.Category);
+        }
+
+
+        [TestMethod]
+        public void ProductController_PostProduct_ShouldSetTheGoodHeaderURL()
+        {
+            //Arrange
+            var id = 1;
+            var name = "name";
+            var category = ProductCategory.Groceries;
+
+            var description = "description";
+            var product = ProductFactory.CreateProduct(id, name, category, description);
+
+            _provider.Setup(
+                    p => p.Add(product)
+                )
+                .Returns(product);
+
+            _controller.Request = new HttpRequestMessage();
+            _controller.Configuration = new HttpConfiguration();
+
+
+            var locationUrl = $"http://localhost:62350/api/product/{id}";
+
+
+
+            var mockUrlHelper = new Mock<UrlHelper>();
+            mockUrlHelper.Setup(x => x.Link(It.IsAny<string>(), It.IsAny<object>())).Returns(locationUrl);
+
+
+            _controller.Url = mockUrlHelper.Object;
+
+            _controller.Request = new HttpRequestMessage()
+            {
+                Properties = { { HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration() } }
+            };
+
+            //Act
+            var response = _controller.PostProduct(product);
+
+
+            //Assert
+            Assert.IsNotNull(response);
+            
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            Assert.IsNotNull(response.Headers.Location);
+            Assert.AreEqual(locationUrl, response.Headers.Location.AbsoluteUri);
         }
 
         [TestMethod]
@@ -180,8 +235,8 @@ namespace ProductStart.Tests.Controllers
 
             var newDescription = "new description";
 
-            var newProduct= new Product {Id = id, Name = newName, Category = newCategory, Description = newDescription};
-            
+            var newProduct = ProductFactory.CreateProduct(id, newName, newCategory, newDescription);
+
 
             _provider.Setup(
                     p => p.Update(id, product)
@@ -214,21 +269,13 @@ namespace ProductStart.Tests.Controllers
             var description = "description";
             var product = ProductFactory.CreateProduct(id, name, category, description);
 
-
-            var newName = "new name";
-            var newCategory = ProductCategory.Hardware;
-
-            var newDescription = "new description";
-
-            var newProduct = new Product { Id = id, Name = newName, Category = newCategory, Description = newDescription };
-
             var otherId = 10;
 
 
             _provider.Setup(
                     p => p.Update(otherId, product)
                 )
-                .Returns((Product) null);
+                .Returns((Product)null);
             //Act
 
             var response = _controller.PutProduct(id, product);
