@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
 using ClassLibrary1;
 using ClassLibrary1.ModelFactory;
+using Microsoft.Web.Http;
 using ProductStart.Providers;
 
 namespace ProductStart.Controllers
+
 {
+    [ApiVersion("1")]
+    [ApiVersion("2")]
     [RoutePrefix("api/clients")]
     public class ClientsController : ApiController
     {

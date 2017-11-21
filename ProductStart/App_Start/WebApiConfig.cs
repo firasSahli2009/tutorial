@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
 using Microsoft.Owin.Security.OAuth;
+using Microsoft.Web.Http;
 using Newtonsoft.Json.Serialization;
 using ProductStart.Providers;
 using ProductStart.Repository;
 using ProductStart.Resolver;
 using Unity;
 using Unity.Lifetime;
+
+using Microsoft.Web.Http.Versioning;
+using ProductStart.Controllers;
+using ProductStart.Services;
+using Microsoft.Web.Http.Versioning.Conventions;
 
 namespace ProductStart
 {
@@ -49,9 +57,25 @@ namespace ProductStart
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            //config.AddApiVersioning(options => options.ReportApiVersions = true);
+            
+
+            config.AddApiVersioning(options => {
+                options.ApiVersionReader = new HeaderApiVersionReader("x-api-version");
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ReportApiVersions = true;
+            });
+
+            
+
+
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().FirstOrDefault();
             if (jsonFormatter != null)
-                jsonFormatter.SerializerSettings.ContractResolver= new CamelCasePropertyNamesContractResolver();
+                jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
         }
+
+
     }
 }

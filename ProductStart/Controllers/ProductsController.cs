@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Results;
 using ClassLibrary1;
-using ProductStart.Models;
-using ProductStart.Providers;
-using ProductStart.Repository;
 using ClassLibrary1.ModelFactory;
-
+using Microsoft.Web.Http;
+using ProductStart.Providers;
 
 namespace ProductStart.Controllers
 {
+    //[Authorize]
+    [ApiVersion("1", Deprecated = true)]
+    [ApiVersion("2")]
     [RoutePrefix("api/products")]
+
     public class ProductsController : ApiController
     {
         private readonly IProductProvider _provider;
@@ -27,7 +27,7 @@ namespace ProductStart.Controllers
             
         }
 
-        [Route("", Name = "AllProducts")]
+        [Route("", Name = "Products")]
         [HttpGet]
         public IHttpActionResult Get()
         {
@@ -52,9 +52,34 @@ namespace ProductStart.Controllers
             
         }
 
+        [Route("", Name = "ProductsV2")]
+        [HttpGet, MapToApiVersion("2.0")]
+        public IHttpActionResult GetV2()
+        {
+            try
+            {
+                //return _provider.GetAll();
+                _modelFactory = new ProductModelFactory(this.Request);
+
+                List<ProductModel> productModels = new List<ProductModel>();
+                var productLinks = _provider.GetAll();
+                foreach (var product in productLinks)
+                {
+                    productModels.Add(_modelFactory.CreateProductModelV2(product));
+                }
+
+                return Ok(productModels);
+            }
+            catch (Exception e)
+            {
+                return InternalServerError();
+            }
+
+        }
+
         // GET: Product
         [Route("~/api/product/{productid:int}", Name = "Product")]
-        [HttpGet]
+        [HttpGet, MapToApiVersion("1.0")]
         public IHttpActionResult Get(int productid)
         {
             var product = _provider.Get(productid);
@@ -64,7 +89,19 @@ namespace ProductStart.Controllers
             }
             return Ok(product);
         }
-       
+
+        [HttpGet, MapToApiVersion("2.0")]
+        [Route("~/api/product/{productid:int}", Name = "ProductV2")]
+        public IHttpActionResult GetV2(int productid)
+        {
+            var product = _provider.Get(productid);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
+        }
+
         [HttpPost]
         [Route("", Name = "AddProduct")]
         public HttpResponseMessage PostProduct(Product product)

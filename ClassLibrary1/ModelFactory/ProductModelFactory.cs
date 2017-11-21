@@ -23,10 +23,31 @@ namespace ClassLibrary1.ModelFactory
             };
         }
 
+        public ProductModel CreateProductModelV2(Product product)
+        {
+            return new ProductModel
+            {
+                Name = product.Name+ " modified",
+                CategoryName = Enum.GetName(typeof(ProductCategory), product.Category),
+                SelfUrl = UrlHelper.Link("Product", new { productid = product.Id })
+            };
+        }
+
         public string CreateProductStringModel(Product product)
         {
             return UrlHelper.Link("Product", new {productid = product.Id});
 
+        }
+
+
+        public ProductModel CreateProductV1Model(Product product)
+        {
+            return new ProductModel
+            {
+                Name = product.Name+ " old" ,
+                CategoryName = Enum.GetName(typeof(ProductCategory), product.Category),
+                SelfUrl = UrlHelper.Link("ProductV1", new { productid = product.Id })
+            };
         }
     }
 }
