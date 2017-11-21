@@ -1,0 +1,3 @@
+API_KEY X-some-key
+Authorization Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+basic authorization username:passeord

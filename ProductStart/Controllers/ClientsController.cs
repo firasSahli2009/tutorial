@@ -14,6 +14,7 @@ namespace ProductStart.Controllers
 {
     [ApiVersion("1")]
     [ApiVersion("2")]
+    [AllowAnonymous]
     [RoutePrefix("api/clients")]
     public class ClientsController : ApiController
     {

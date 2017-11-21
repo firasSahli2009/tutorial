@@ -328,6 +328,7 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ApiPrincipal.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -341,6 +342,8 @@
     <Compile Include="Repository\ProductRepository.cs" />
     <Compile Include="Resolver\UnityResolver.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\APIKeyHandler.cs" />
+    <Compile Include="Services\AuthHandler.cs" />
     <Compile Include="Services\ControllerSelector.cs" />
     <Compile Include="Services\VersionConstraint.cs" />
     <Compile Include="Services\VersionedRouteAttribute.cs" />
