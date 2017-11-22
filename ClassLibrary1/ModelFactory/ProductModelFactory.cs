@@ -19,7 +19,9 @@ namespace ClassLibrary1.ModelFactory
             {
                 Name = product.Name,
                 CategoryName = Enum.GetName( typeof(ProductCategory), product.Category),
-                SelfUrl = UrlHelper.Link("Product", new {productid = product.Id})
+                SelfUrl = UrlHelper.Link("Product", new {productid = product.Id}),
+                Id = product.Id
+                
             };
         }
 
@@ -27,6 +29,7 @@ namespace ClassLibrary1.ModelFactory
         {
             return new ProductModel
             {
+                Id = product.Id,
                 Name = product.Name+ " modified",
                 CategoryName = Enum.GetName(typeof(ProductCategory), product.Category),
                 SelfUrl = UrlHelper.Link("Product", new { productid = product.Id })
@@ -39,15 +42,5 @@ namespace ClassLibrary1.ModelFactory
 
         }
 
-
-        public ProductModel CreateProductV1Model(Product product)
-        {
-            return new ProductModel
-            {
-                Name = product.Name+ " old" ,
-                CategoryName = Enum.GetName(typeof(ProductCategory), product.Category),
-                SelfUrl = UrlHelper.Link("ProductV1", new { productid = product.Id })
-            };
-        }
     }
 }

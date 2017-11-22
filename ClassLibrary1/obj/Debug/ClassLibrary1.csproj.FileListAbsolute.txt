@@ -58,3 +58,4 @@ C:\Firas\Tutoruials\ProductLister\ClassLibrary1\bin\Debug\Unity.RegistrationByCo
 C:\Firas\Tutoruials\ProductLister\ClassLibrary1\bin\Debug\Unity.ServiceLocation.pdb
 C:\Firas\Tutoruials\ProductLister\ClassLibrary1\obj\Debug\ClassLibrary1.dll
 C:\Firas\Tutoruials\ProductLister\ClassLibrary1\obj\Debug\ClassLibrary1.pdb
+C:\Firas\Tutoruials\ProductLister\ClassLibrary1\obj\Debug\ClassLibrary1.csprojResolveAssemblyReference.cache

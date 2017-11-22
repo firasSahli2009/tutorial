@@ -66,9 +66,7 @@ namespace ProductStart
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ReportApiVersions = true;
             });
-
             
-
 
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().FirstOrDefault();
             if (jsonFormatter != null)

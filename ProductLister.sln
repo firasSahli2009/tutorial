@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{938DF5E8-EDDD-4A74-931E-60A7B33E90DD}"
 	ProjectSection(SolutionItems) = preProject
 		AuthonticationData.txt = AuthonticationData.txt
+		VersionHeader.txt = VersionHeader.txt
 	EndProjectSection
 EndProject
 Global

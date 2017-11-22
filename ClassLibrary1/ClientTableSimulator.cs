@@ -1,6 +1,6 @@
 ﻿
 using System.Collections.Generic;
-
+using ClassLibrary1.Factories;
 
 namespace ClassLibrary1
 {
@@ -29,6 +29,10 @@ namespace ClassLibrary1
         {
             _clientTable = new ClietntDataSet();
 
+            var product1 = productTableSimulator.FindById(1);
+            var product2 = productTableSimulator.FindById(2);
+            var product3 = productTableSimulator.FindById(3);
+
             Add(new Client
             {
                 Category = ClientCategory.Company,
@@ -36,8 +40,8 @@ namespace ClassLibrary1
                 Name = "client",
                 Products = new List<Product>
                 {
-                    productTableSimulator.FindById(1),
-                    productTableSimulator.FindById(2)
+                    (product1!=null)?productTableSimulator.FindById(1):ProductFactory.CreateProduct(1),
+                    (product2!=null)?productTableSimulator.FindById(2):ProductFactory.CreateProduct(2)
                 }
             });
             Add(new Client
@@ -47,9 +51,9 @@ namespace ClassLibrary1
                 Name = "other client",
                 Products = new List<Product>
                 {
-                    productTableSimulator.FindById(1),
-                    productTableSimulator.FindById(2),
-                    productTableSimulator.FindById(3),
+                    (product1!=null)?productTableSimulator.FindById(1):ProductFactory.CreateProduct(1),
+                    (product2!=null)?productTableSimulator.FindById(2):ProductFactory.CreateProduct(2),
+                   (product3!=null)?productTableSimulator.FindById(3):ProductFactory.CreateProduct(3)
                 }
             });
 

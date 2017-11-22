@@ -17,9 +17,9 @@ using NUnit.Framework;
 
 using Moq;
 using ClassLibrary1;
+using ClassLibrary1.Factories;
 using Newtonsoft.Json;
 using ProductStart.Controllers;
-using ProductStart.Factories;
 using ProductStart.Providers;
 using ProductStart.Repository;
 using ProductStart.Tests.Utility;

@@ -15,5 +15,7 @@ namespace ClassLibrary1.ModelFactory
         public string CategoryName { get; set; }
         public string SelfUrl { get; set; }
 
+        public int Id { get; set; }
+
     }
 }

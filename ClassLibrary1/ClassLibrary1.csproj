@@ -169,6 +169,8 @@
     <Compile Include="Client.cs" />
     <Compile Include="ClientCategory.cs" />
     <Compile Include="Entity.cs" />
+    <Compile Include="Factories\ClientFactory.cs" />
+    <Compile Include="Factories\ProductFactory.cs" />
     <Compile Include="IClient.cs" />
     <Compile Include="IDbSet.cs" />
     <Compile Include="IEntity.cs" />
